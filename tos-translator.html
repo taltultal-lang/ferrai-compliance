@@ -11,24 +11,33 @@
   <meta property="og:image" content="assets/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
     :root {
-      --navy:         #0a1628;
-      --navy-light:   #132040;
-      --navy-border:  #1e3056;
-      --accent:       #2563eb;
-      --accent-hover: #1d4ed8;
-      --text-1:       #f8fafc;
-      --text-2:       #94a3b8;
-      --text-3:       #64748b;
+      --cream:        #f7f4ef;
+      --white:        #ffffff;
+      --navy:         #0d1f3c;
+      --navy-mid:     #1a3a5c;
+      --navy-light:   #2a4a6c;
+      --gold:         #b8882a;
+      --gold-light:   #f5ead8;
+      --gold-dark:    #8a6218;
+      --border:       #ddd5c5;
+      --border-light: #ede8df;
+      --text-1:       #0d1f3c;
+      --text-2:       #4a5c72;
+      --text-3:       #8a9ab0;
+      --risk-red:     #b91c1c;
+      --risk-orange:  #c2410c;
+      --risk-yellow:  #a16207;
+      --risk-green:   #15803d;
     }
     * { box-sizing: border-box; }
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--navy);
+      background: var(--cream);
       color: var(--text-1);
       min-height: 100vh;
       margin: 0;
@@ -36,30 +45,32 @@
     [x-cloak] { display: none !important; }
 
     .card {
-      background: var(--navy-light);
-      border: 1px solid var(--navy-border);
-      border-radius: 12px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      box-shadow: 0 1px 6px rgba(13,31,60,0.04);
     }
     .btn-primary {
-      background: var(--accent);
+      background: var(--gold);
       color: #fff;
       border: none;
-      border-radius: 8px;
+      border-radius: 4px;
       padding: 13px 24px;
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
       transition: background 0.15s, opacity 0.15s;
       font-family: inherit;
+      letter-spacing: 0.01em;
     }
-    .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+    .btn-primary:hover:not(:disabled) { background: var(--gold-dark); }
     .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
 
     .btn-ghost {
       background: transparent;
       color: var(--text-2);
-      border: 1px solid var(--navy-border);
-      border-radius: 8px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
       padding: 11px 20px;
       font-size: 14px;
       font-weight: 500;
@@ -67,14 +78,14 @@
       transition: border-color 0.15s, color 0.15s;
       font-family: inherit;
     }
-    .btn-ghost:hover { border-color: var(--accent); color: var(--text-1); }
+    .btn-ghost:hover { border-color: var(--navy); color: var(--navy); }
 
     textarea {
       width: 100%;
-      background: var(--navy);
-      border: 2px solid var(--navy-border);
-      border-radius: 10px;
-      color: var(--text-1);
+      background: var(--white);
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      color: var(--navy);
       font-family: 'Inter', -apple-system, sans-serif;
       font-size: 14px;
       line-height: 1.6;
@@ -85,15 +96,16 @@
       transition: border-color 0.15s;
       outline: none;
     }
-    textarea:focus { border-color: var(--accent); }
+    textarea:focus { border-color: var(--gold); }
     textarea::placeholder { color: var(--text-3); }
 
     .clause-card {
-      background: var(--navy-light);
-      border: 1px solid var(--navy-border);
-      border-radius: 12px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 6px;
       overflow: hidden;
       margin-bottom: 16px;
+      box-shadow: 0 1px 4px rgba(13,31,60,0.04);
     }
     .clause-header {
       padding: 18px 20px;
@@ -103,12 +115,12 @@
       cursor: pointer;
       user-select: none;
     }
-    .clause-header:hover { background: rgba(255,255,255,0.02); }
+    .clause-header:hover { background: var(--border-light); }
 
     .rank-badge {
       width: 32px;
       height: 32px;
-      border-radius: 8px;
+      border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -130,18 +142,18 @@
     .category-tag {
       display: inline-block;
       padding: 2px 8px;
-      border-radius: 4px;
+      border-radius: 3px;
       font-size: 11px;
       font-weight: 600;
-      background: rgba(37,99,235,0.15);
-      color: #93c5fd;
+      background: var(--gold-light);
+      color: var(--gold-dark);
       letter-spacing: 0.03em;
     }
 
     .excerpt-block {
-      background: var(--navy);
-      border-left: 3px solid var(--navy-border);
-      border-radius: 0 6px 6px 0;
+      background: var(--cream);
+      border-left: 3px solid var(--border);
+      border-radius: 0 4px 4px 0;
       padding: 12px 16px;
       font-size: 13px;
       color: var(--text-3);
@@ -151,17 +163,16 @@
     }
 
     .cta-box {
-      background: linear-gradient(135deg, rgba(37,99,235,0.18) 0%, rgba(37,99,235,0.06) 100%);
-      border: 1px solid rgba(37,99,235,0.4);
-      border-radius: 12px;
+      background: var(--navy);
+      border-radius: 6px;
       padding: 28px 32px;
     }
 
     .spinner {
       width: 48px;
       height: 48px;
-      border: 3px solid rgba(37,99,235,0.25);
-      border-top-color: var(--accent);
+      border: 3px solid var(--gold-light);
+      border-top-color: var(--gold);
       border-radius: 50%;
       animation: spin 0.75s linear infinite;
     }
@@ -185,13 +196,13 @@
 <body>
 
 <!-- ── Header ──────────────────────────────────────────────────────────────── -->
-<header style="border-bottom: 1px solid var(--navy-border); padding: 16px 24px;">
+<header style="border-bottom: 1px solid var(--border); padding: 16px 24px; background: var(--white);">
   <div style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;">
     <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
-      <div style="width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <div style="width: 32px; height: 32px; background: var(--navy); border-radius: 4px; display: flex; align-items: center; justify-content: center;">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       </div>
-      <span style="font-weight: 700; font-size: 16px; color: var(--text-1);">FERR AI Compliance</span>
+      <span style="font-weight: 700; font-size: 16px; color: var(--navy); font-family: 'Playfair Display', Georgia, serif;">FERR AI Compliance</span>
     </a>
     <a href="https://calendly.com/demo" target="_blank" rel="noopener" class="btn-primary" style="padding: 9px 18px; font-size: 14px; text-decoration: none;">Book a Call</a>
   </div>
@@ -205,20 +216,20 @@
     <!-- ── Input view ──────────────────────────────────────────────────────── -->
     <div x-show="!results && !loading">
       <div style="text-align: center; margin-bottom: 36px;">
-        <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(251,191,36,0.12); border: 1px solid rgba(251,191,36,0.3); border-radius: 99px; padding: 6px 16px; font-size: 13px; font-weight: 600; color: #fbbf24; margin-bottom: 20px;">
+        <div style="display: inline-flex; align-items: center; gap: 8px; background: var(--gold-light); border: 1px solid var(--border); border-radius: 2px; padding: 6px 16px; font-size: 12px; font-weight: 600; color: var(--gold-dark); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.08em;">
           Free · No Account · Instant Results
         </div>
-        <h1 style="font-size: clamp(24px, 5vw, 38px); font-weight: 700; line-height: 1.2; margin: 0 0 14px;">
+        <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: clamp(24px, 5vw, 38px); font-weight: 700; line-height: 1.2; margin: 0 0 14px; color: var(--navy);">
           Terms of Service Translator
         </h1>
         <p style="font-size: 17px; color: var(--text-2); line-height: 1.6; max-width: 500px; margin: 0 auto;">
-          Paste any Terms of Service, Privacy Policy, or legal agreement. Get the <strong style="color: var(--text-1);">5 clauses most likely to harm you</strong> — in plain English.
+          Paste any Terms of Service, Privacy Policy, or legal agreement. Get the <strong style="color: var(--navy);">5 clauses most likely to harm you</strong> — in plain English.
         </p>
       </div>
 
       <!-- Input card -->
       <div class="card" style="padding: 24px; margin-bottom: 24px;">
-        <label style="display: block; font-size: 14px; font-weight: 600; color: var(--text-2); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em;">
+        <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text-3); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.08em;">
           Paste Your Agreement
         </label>
         <textarea
@@ -231,7 +242,7 @@ Tip: You can paste the full document — up to 15,000 characters."
 
         <!-- Character counter -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-          <span style="font-size: 12px;" :class="isOverLimit ? 'text-red-400' : ''" :style="isOverLimit ? 'color:#f87171' : 'color:var(--text-3)'">
+          <span style="font-size: 12px;" :class="isOverLimit ? 'text-red-400' : ''" :style="isOverLimit ? 'color:var(--risk-red)' : 'color:var(--text-3)'">
             <span x-text="charCount.toLocaleString()"></span> / 15,000 characters
             <span x-show="isOverLimit" style="margin-left: 6px; font-weight: 600;">— Please trim before submitting</span>
           </span>
@@ -241,7 +252,7 @@ Tip: You can paste the full document — up to 15,000 characters."
         </div>
 
         <!-- Error -->
-        <div x-show="error" style="background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3); border-radius: 8px; padding: 12px 16px; margin-top: 14px; font-size: 14px; color: #fca5a5;" x-text="error"></div>
+        <div x-show="error" style="background: rgba(185,28,28,0.08); border: 1px solid rgba(185,28,28,0.25); border-radius: 6px; padding: 12px 16px; margin-top: 14px; font-size: 14px; color: var(--risk-red);" x-text="error"></div>
 
         <div style="display: flex; align-items: center; gap: 14px; margin-top: 18px;">
           <button class="btn-primary" :disabled="!canSubmit" @click="analyze()" style="font-size: 16px; padding: 14px 28px;">
@@ -258,7 +269,7 @@ Tip: You can paste the full document — up to 15,000 characters."
 
       <!-- What we look for -->
       <div class="card" style="padding: 20px 24px;">
-        <p style="font-size: 13px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 14px;">What we scan for</p>
+        <p style="font-size: 12px; font-weight: 600; color: var(--gold); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 14px;">What we scan for</p>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
           <template x-for="item in scanItems" :key="item.label">
             <div style="display: flex; align-items: flex-start; gap: 8px;">
@@ -278,7 +289,7 @@ Tip: You can paste the full document — up to 15,000 characters."
     <!-- ── Loading ─────────────────────────────────────────────────────────── -->
     <div x-show="loading" style="text-align: center; padding: 80px 20px;">
       <div class="spinner" style="margin: 0 auto 24px;"></div>
-      <h2 style="font-size: 20px; font-weight: 600; margin: 0 0 8px;">
+      <h2 style="font-size: 20px; font-weight: 600; margin: 0 0 8px; color: var(--navy);">
         Reading the fine print<span class="dots"><span>.</span><span>.</span><span>.</span></span>
       </h2>
       <p style="color: var(--text-2); font-size: 15px; margin: 0;">Identifying clauses that could affect your rights</p>
@@ -292,8 +303,8 @@ Tip: You can paste the full document — up to 15,000 characters."
           <div style="margin-bottom: 28px;">
             <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
               <div>
-                <p style="font-size: 13px; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; margin: 0 0 6px;">Analysis Complete</p>
-                <h1 style="font-size: 26px; font-weight: 700; margin: 0;">
+                <p style="font-size: 12px; color: var(--gold); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin: 0 0 6px;">Analysis Complete</p>
+                <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: 26px; font-weight: 700; margin: 0; color: var(--navy);">
                   5 Clauses That Could Affect You
                 </h1>
               </div>
@@ -318,7 +329,7 @@ Tip: You can paste the full document — up to 15,000 characters."
                 <!-- Title + meta -->
                 <div style="flex: 1; min-width: 0;">
                   <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 5px;">
-                    <span style="font-size: 15px; font-weight: 600;" x-text="clause.clauseTitle"></span>
+                    <span style="font-size: 15px; font-weight: 600; color: var(--navy);" x-text="clause.clauseTitle"></span>
                   </div>
                   <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                     <span class="risk-pill" :style="'background:' + rankBg(clause.riskScore) + '; color:' + rankColor(clause.riskScore)">
@@ -337,17 +348,17 @@ Tip: You can paste the full document — up to 15,000 characters."
               <!-- Expanded body -->
               <div x-show="clause._open" style="padding: 0 20px 20px;">
                 <!-- Original excerpt -->
-                <p style="font-size: 12px; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 8px;">Original text</p>
+                <p style="font-size: 12px; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; margin: 0 0 8px;">Original text</p>
                 <div class="excerpt-block" x-text="'\u201c' + clause.originalExcerpt + '\u201d'"></div>
 
                 <!-- Plain English -->
-                <p style="font-size: 12px; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 8px;">What this means for you</p>
+                <p style="font-size: 12px; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; margin: 0 0 8px;">What this means for you</p>
                 <p style="font-size: 14px; color: var(--text-1); line-height: 1.7; margin: 0 0 16px;" x-text="clause.plainEnglish"></p>
 
                 <!-- Why it matters -->
-                <div style="display: flex; gap: 10px; align-items: flex-start; background: rgba(251,146,60,0.08); border: 1px solid rgba(251,146,60,0.2); border-radius: 8px; padding: 12px 14px;">
-                  <svg style="flex-shrink: 0; margin-top: 1px;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                  <p style="font-size: 13px; color: #fdba74; margin: 0; line-height: 1.6; font-weight: 500;" x-text="clause.whyItMatters"></p>
+                <div style="display: flex; gap: 10px; align-items: flex-start; background: var(--gold-light); border: 1px solid var(--border); border-radius: 6px; padding: 12px 14px;">
+                  <svg style="flex-shrink: 0; margin-top: 1px;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                  <p style="font-size: 13px; color: var(--gold-dark); margin: 0; line-height: 1.6; font-weight: 500;" x-text="clause.whyItMatters"></p>
                 </div>
               </div>
 
@@ -356,10 +367,10 @@ Tip: You can paste the full document — up to 15,000 characters."
 
           <!-- CTA -->
           <div class="cta-box" style="margin-top: 8px; margin-bottom: 24px;">
-            <h2 style="font-size: 20px; font-weight: 700; margin: 0 0 8px;">Concerned about these clauses?</h2>
-            <p style="font-size: 15px; color: var(--text-2); line-height: 1.6; margin: 0 0 20px;">
+            <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 700; margin: 0 0 8px; color: #fff;">Concerned about these clauses?</h2>
+            <p style="font-size: 15px; color: rgba(255,255,255,0.72); line-height: 1.6; margin: 0 0 20px;">
               Our team can review this agreement, advise on negotiation leverage, and help you understand what you can push back on — before you sign.
-              <strong style="color: var(--text-1);"> FERR AI Compliance</strong> advises on AI contracts, data processing agreements, and privacy compliance.
+              <strong style="color: #fff;"> FERR AI Compliance</strong> advises on AI contracts, data processing agreements, and privacy compliance.
             </p>
             <a href="https://calendly.com/demo" target="_blank" rel="noopener" class="btn-primary" style="display: inline-block; text-decoration: none; font-size: 16px; padding: 14px 28px;">
               Book a Free Consultation →

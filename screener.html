@@ -11,25 +11,33 @@
   <meta property="og:image" content="assets/og-image.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
     :root {
-      --navy:         #0a1628;
-      --navy-light:   #132040;
-      --navy-mid:     #0f1e38;
-      --navy-border:  #1e3056;
-      --accent:       #2563eb;
-      --accent-hover: #1d4ed8;
-      --text-1:       #f8fafc;
-      --text-2:       #94a3b8;
-      --text-3:       #64748b;
+      --cream:        #f7f4ef;
+      --white:        #ffffff;
+      --navy:         #0d1f3c;
+      --navy-mid:     #1a3a5c;
+      --navy-light:   #2a4a6c;
+      --gold:         #b8882a;
+      --gold-light:   #f5ead8;
+      --gold-dark:    #8a6218;
+      --border:       #ddd5c5;
+      --border-light: #ede8df;
+      --text-1:       #0d1f3c;
+      --text-2:       #4a5c72;
+      --text-3:       #8a9ab0;
+      --risk-red:     #b91c1c;
+      --risk-orange:  #c2410c;
+      --risk-yellow:  #a16207;
+      --risk-green:   #15803d;
     }
     * { box-sizing: border-box; }
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--navy);
+      background: var(--cream);
       color: var(--text-1);
       min-height: 100vh;
       margin: 0;
@@ -37,30 +45,32 @@
     [x-cloak] { display: none !important; }
 
     .card {
-      background: var(--navy-light);
-      border: 1px solid var(--navy-border);
-      border-radius: 12px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      box-shadow: 0 1px 6px rgba(13,31,60,0.04);
     }
     .btn-primary {
-      background: var(--accent);
+      background: var(--gold);
       color: #fff;
       border: none;
-      border-radius: 8px;
+      border-radius: 4px;
       padding: 12px 24px;
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
       transition: background 0.15s, opacity 0.15s;
       font-family: inherit;
+      letter-spacing: 0.01em;
     }
-    .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+    .btn-primary:hover:not(:disabled) { background: var(--gold-dark); }
     .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
 
     .btn-ghost {
       background: transparent;
       color: var(--text-2);
-      border: 1px solid var(--navy-border);
-      border-radius: 8px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
       padding: 11px 20px;
       font-size: 15px;
       font-weight: 500;
@@ -68,17 +78,17 @@
       transition: border-color 0.15s, color 0.15s;
       font-family: inherit;
     }
-    .btn-ghost:hover { border-color: var(--accent); color: var(--text-1); }
+    .btn-ghost:hover { border-color: var(--navy); color: var(--navy); }
 
     .opt-btn {
       display: block;
       width: 100%;
       text-align: left;
-      background: var(--navy);
-      border: 2px solid var(--navy-border);
-      border-radius: 10px;
+      background: var(--white);
+      border: 2px solid var(--border);
+      border-radius: 6px;
       padding: 14px 18px;
-      color: var(--text-1);
+      color: var(--navy);
       font-size: 15px;
       font-weight: 500;
       cursor: pointer;
@@ -86,10 +96,10 @@
       font-family: inherit;
       margin-bottom: 8px;
     }
-    .opt-btn:hover { border-color: var(--accent); background: rgba(37,99,235,0.06); }
+    .opt-btn:hover { border-color: var(--gold); background: var(--gold-light); }
     .opt-btn.selected {
-      border-color: var(--accent);
-      background: rgba(37,99,235,0.14);
+      border-color: var(--gold);
+      background: var(--gold-light);
     }
     .opt-btn .opt-desc {
       display: block;
@@ -104,11 +114,11 @@
       align-items: center;
       gap: 12px;
       width: 100%;
-      background: var(--navy);
-      border: 2px solid var(--navy-border);
-      border-radius: 10px;
+      background: var(--white);
+      border: 2px solid var(--border);
+      border-radius: 6px;
       padding: 14px 18px;
-      color: var(--text-1);
+      color: var(--navy);
       font-size: 15px;
       font-weight: 500;
       cursor: pointer;
@@ -116,17 +126,17 @@
       font-family: inherit;
       margin-bottom: 8px;
     }
-    .check-btn:hover { border-color: var(--accent); background: rgba(37,99,235,0.06); }
+    .check-btn:hover { border-color: var(--gold); background: var(--gold-light); }
     .check-btn.checked {
-      border-color: var(--accent);
-      background: rgba(37,99,235,0.14);
+      border-color: var(--gold);
+      background: var(--gold-light);
     }
     .check-icon {
       width: 20px;
       height: 20px;
-      border-radius: 4px;
-      border: 2px solid var(--navy-border);
-      background: var(--navy);
+      border-radius: 3px;
+      border: 2px solid var(--border);
+      background: var(--white);
       flex-shrink: 0;
       display: flex;
       align-items: center;
@@ -134,19 +144,19 @@
       transition: background 0.15s, border-color 0.15s;
     }
     .check-btn.checked .check-icon {
-      background: var(--accent);
-      border-color: var(--accent);
+      background: var(--gold);
+      border-color: var(--gold);
     }
 
     .progress-bar-track {
-      background: var(--navy-border);
+      background: var(--border-light);
       border-radius: 99px;
       height: 4px;
       overflow: hidden;
     }
     .progress-bar-fill {
       height: 100%;
-      background: var(--accent);
+      background: var(--gold);
       border-radius: 99px;
       transition: width 0.3s ease;
     }
@@ -163,9 +173,9 @@
     }
 
     .framework-card {
-      background: var(--navy);
-      border: 1px solid var(--navy-border);
-      border-radius: 10px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 6px;
       padding: 20px;
     }
 
@@ -174,13 +184,13 @@
       gap: 12px;
       align-items: flex-start;
       padding: 14px 0;
-      border-bottom: 1px solid var(--navy-border);
+      border-bottom: 1px solid var(--border-light);
     }
     .obligation-item:last-child { border-bottom: none; }
     .obligation-num {
-      background: rgba(37,99,235,0.2);
-      color: var(--accent);
-      border-radius: 6px;
+      background: var(--gold-light);
+      color: var(--gold-dark);
+      border-radius: 4px;
       width: 28px;
       height: 28px;
       display: flex;
@@ -192,17 +202,16 @@
     }
 
     .cta-box {
-      background: linear-gradient(135deg, rgba(37,99,235,0.18) 0%, rgba(37,99,235,0.06) 100%);
-      border: 1px solid rgba(37,99,235,0.4);
-      border-radius: 12px;
+      background: var(--navy);
+      border-radius: 6px;
       padding: 28px 32px;
     }
 
     .spinner {
       width: 48px;
       height: 48px;
-      border: 3px solid rgba(37,99,235,0.25);
-      border-top-color: var(--accent);
+      border: 3px solid var(--gold-light);
+      border-top-color: var(--gold);
       border-radius: 50%;
       animation: spin 0.75s linear infinite;
     }
@@ -220,19 +229,19 @@
     .tooltip-text {
       visibility: hidden;
       width: 260px;
-      background: #1e3056;
-      color: var(--text-1);
+      background: var(--navy);
+      color: #fff;
       font-size: 13px;
       font-weight: 400;
       text-align: left;
-      border-radius: 8px;
+      border-radius: 6px;
       padding: 10px 14px;
       position: absolute;
       bottom: 130%;
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
-      border: 1px solid var(--navy-border);
+      border: 1px solid var(--navy-mid);
       line-height: 1.5;
       pointer-events: none;
     }
@@ -246,13 +255,13 @@
 <body>
 
 <!-- ── Header ──────────────────────────────────────────────────────────────── -->
-<header style="border-bottom: 1px solid var(--navy-border); padding: 16px 24px;">
+<header style="border-bottom: 1px solid var(--border); padding: 16px 24px; background: var(--white);">
   <div style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;">
     <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
-      <div style="width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+      <div style="width: 32px; height: 32px; background: var(--navy); border-radius: 4px; display: flex; align-items: center; justify-content: center;">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       </div>
-      <span style="font-weight: 700; font-size: 16px; color: var(--text-1);">FERR AI Compliance</span>
+      <span style="font-weight: 700; font-size: 16px; color: var(--navy); font-family: 'Playfair Display', Georgia, serif;">FERR AI Compliance</span>
     </a>
     <a href="https://calendly.com/demo" target="_blank" rel="noopener" class="btn-primary" style="padding: 9px 18px; font-size: 14px;">Book a Call</a>
   </div>
@@ -266,14 +275,14 @@
     <!-- ── Welcome ─────────────────────────────────────────────────────────── -->
     <div x-show="currentStep === 0" class="step-anim">
       <div style="text-align: center; margin-bottom: 40px;">
-        <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(37,99,235,0.15); border: 1px solid rgba(37,99,235,0.3); border-radius: 99px; padding: 6px 16px; font-size: 13px; font-weight: 600; color: #93c5fd; margin-bottom: 20px;">
+        <div style="display: inline-flex; align-items: center; gap: 8px; background: var(--gold-light); border: 1px solid var(--border); border-radius: 2px; padding: 6px 16px; font-size: 12px; font-weight: 600; color: var(--gold-dark); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.08em;">
           Free Assessment · 3 Minutes
         </div>
-        <h1 style="font-size: clamp(26px, 5vw, 40px); font-weight: 700; line-height: 1.2; margin: 0 0 16px;">
+        <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: clamp(26px, 5vw, 40px); font-weight: 700; line-height: 1.2; margin: 0 0 16px; color: var(--navy);">
           AI Act Compliance Screener
         </h1>
         <p style="font-size: 17px; color: var(--text-2); line-height: 1.6; max-width: 520px; margin: 0 auto 32px;">
-          Answer 10 questions about your AI system. Get an instant risk classification under <strong style="color: var(--text-1);">EU AI Act</strong>, <strong style="color: var(--text-1);">Israeli PPA</strong>, and <strong style="color: var(--text-1);">US NIST AI RMF</strong>.
+          Answer 10 questions about your AI system. Get an instant risk classification under <strong style="color: var(--navy);">EU AI Act</strong>, <strong style="color: var(--navy);">Israeli PPA</strong>, and <strong style="color: var(--navy);">US NIST AI RMF</strong>.
         </p>
         <button class="btn-primary" @click="currentStep = 1" style="font-size: 16px; padding: 14px 32px;">
           Start Free Assessment →
@@ -283,17 +292,17 @@
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px;">
         <div class="card" style="padding: 20px; text-align: center;">
           <div style="font-size: 24px; margin-bottom: 8px;">🇪🇺</div>
-          <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">EU AI Act 2024</div>
+          <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px; color: var(--navy);">EU AI Act 2024</div>
           <div style="font-size: 13px; color: var(--text-2);">Risk tier classification under Annex III & Art. 5</div>
         </div>
         <div class="card" style="padding: 20px; text-align: center;">
           <div style="font-size: 24px; margin-bottom: 8px;">🇮🇱</div>
-          <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">Israeli PPA</div>
+          <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px; color: var(--navy);">Israeli PPA</div>
           <div style="font-size: 13px; color: var(--text-2);">Privacy Protection Authority AI Guidelines</div>
         </div>
         <div class="card" style="padding: 20px; text-align: center;">
           <div style="font-size: 24px; margin-bottom: 8px;">🇺🇸</div>
-          <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">NIST AI RMF</div>
+          <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px; color: var(--navy);">NIST AI RMF</div>
           <div style="font-size: 13px; color: var(--text-2);">Risk maturity across GOVERN / MAP / MEASURE / MANAGE</div>
         </div>
       </div>
@@ -320,7 +329,7 @@
 
       <!-- Q1: Role -->
       <div x-show="currentStep === 1" class="step-anim">
-        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px;">What is your role in relation to this AI system?</h2>
+        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px; color: var(--navy);">What is your role in relation to this AI system?</h2>
         <p style="font-size: 14px; color: var(--text-2); margin: 0 0 24px; line-height: 1.5;">Under the EU AI Act, obligations differ based on whether you place the system on the market, deploy it, or use it.</p>
         <button class="opt-btn" :class="answers.role === 'Provider' && 'selected'" @click="select('role','Provider'); next()">
           Provider
@@ -338,7 +347,7 @@
 
       <!-- Q2: Domain -->
       <div x-show="currentStep === 2" class="step-anim">
-        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px;">What domain does this AI system operate in?</h2>
+        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px; color: var(--navy);">What domain does this AI system operate in?</h2>
         <p style="font-size: 14px; color: var(--text-2); margin: 0 0 24px; line-height: 1.5;">EU AI Act Annex III defines high-risk categories based on deployment sector.</p>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
           <template x-for="opt in domainOptions" :key="opt.value">
@@ -352,7 +361,7 @@
 
       <!-- Q3: High-stakes -->
       <div x-show="currentStep === 3" class="step-anim">
-        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px;">Does this system make or significantly inform high-stakes decisions?</h2>
+        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px; color: var(--navy);">Does this system make or significantly inform high-stakes decisions?</h2>
         <p style="font-size: 14px; color: var(--text-2); margin: 0 0 24px; line-height: 1.5;">Examples: decisions affecting credit access, employment, housing, education admission, criminal sentencing, healthcare treatment, or government benefits.</p>
         <button class="opt-btn" :class="answers.highStakes === 'Yes' && 'selected'" @click="select('highStakes','Yes'); next()">
           Yes — it makes or directly informs consequential decisions about individuals
@@ -364,7 +373,7 @@
 
       <!-- Q4: Biometric -->
       <div x-show="currentStep === 4" class="step-anim">
-        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px;">Does this system process biometric data?</h2>
+        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px; color: var(--navy);">Does this system process biometric data?</h2>
         <p style="font-size: 14px; color: var(--text-2); margin: 0 0 24px; line-height: 1.5;">Biometric data includes facial features, fingerprints, voice patterns, iris, gait, or other body-based identifiers.</p>
         <button class="opt-btn" :class="answers.biometric === 'Yes' && 'selected'" @click="select('biometric','Yes')">
           Yes — it processes biometric data
@@ -374,8 +383,8 @@
         </button>
 
         <!-- Conditional follow-up -->
-        <div x-show="answers.biometric === 'Yes'" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--navy-border);">
-          <p style="font-size: 15px; font-weight: 600; margin: 0 0 12px; color: var(--text-1);">Is this real-time facial recognition in a publicly accessible space?</p>
+        <div x-show="answers.biometric === 'Yes'" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-light);">
+          <p style="font-size: 15px; font-weight: 600; margin: 0 0 12px; color: var(--navy);">Is this real-time facial recognition in a publicly accessible space?</p>
           <p style="font-size: 13px; color: var(--text-2); margin: 0 0 16px; line-height: 1.5;">This is one of the key Prohibited AI practices under EU AI Act Art. 5(1)(h), with very limited law enforcement exceptions.</p>
           <button class="opt-btn" :class="answers.realtimeFacial === 'Yes' && 'selected'" @click="select('realtimeFacial','Yes'); next()">
             Yes — real-time remote biometric identification in public spaces
@@ -388,7 +397,7 @@
 
       <!-- Q5: Manipulation -->
       <div x-show="currentStep === 5" class="step-anim">
-        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px;">Does this system use subliminal techniques or exploit psychological vulnerabilities?</h2>
+        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px; color: var(--navy);">Does this system use subliminal techniques or exploit psychological vulnerabilities?</h2>
         <p style="font-size: 14px; color: var(--text-2); margin: 0 0 24px; line-height: 1.5;">Under EU AI Act Art. 5, systems designed to manipulate people below the threshold of consciousness, or to exploit age, disability, or social/economic situations are Prohibited.</p>
         <button class="opt-btn" :class="answers.subliminal === 'Yes' && 'selected'" @click="select('subliminal','Yes'); next()">
           Yes — it uses such techniques
@@ -403,7 +412,7 @@
 
       <!-- Q6: Social scoring -->
       <div x-show="currentStep === 6" class="step-anim">
-        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px;">Does this system evaluate or classify individuals for social trustworthiness?</h2>
+        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px; color: var(--navy);">Does this system evaluate or classify individuals for social trustworthiness?</h2>
         <p style="font-size: 14px; color: var(--text-2); margin: 0 0 24px; line-height: 1.5;">Social scoring by public authorities or in a way that leads to detrimental treatment in unrelated contexts is Prohibited under EU AI Act Art. 5(1)(c).</p>
         <button class="opt-btn" :class="answers.socialScoring === 'Yes' && 'selected'" @click="select('socialScoring','Yes'); next()">
           Yes — it scores or ranks individuals based on social behavior or personal traits
@@ -415,7 +424,7 @@
 
       <!-- Q7: GPAI -->
       <div x-show="currentStep === 7" class="step-anim">
-        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px;">
+        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px; color: var(--navy);">
           Is this system built on or integrated with a General-Purpose AI (GPAI) model?
           <span class="tooltip-wrap" style="vertical-align: middle; margin-left: 6px; cursor: help;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
@@ -433,7 +442,7 @@
 
       <!-- Q8: Jurisdiction -->
       <div x-show="currentStep === 8" class="step-anim">
-        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px;">Where is this system deployed or used?</h2>
+        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px; color: var(--navy);">Where is this system deployed or used?</h2>
         <p style="font-size: 14px; color: var(--text-2); margin: 0 0 24px; line-height: 1.5;">This determines which regulatory frameworks apply and with what force.</p>
         <button class="opt-btn" :class="answers.jurisdiction === 'EU only' && 'selected'" @click="select('jurisdiction','EU only'); next()">EU only</button>
         <button class="opt-btn" :class="answers.jurisdiction === 'Israel only' && 'selected'" @click="select('jurisdiction','Israel only'); next()">Israel only</button>
@@ -444,7 +453,7 @@
 
       <!-- Q9: Transparency obligations -->
       <div x-show="currentStep === 9" class="step-anim">
-        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px;">Does this system trigger transparency obligations under Art. 50?</h2>
+        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px; color: var(--navy);">Does this system trigger transparency obligations under Art. 50?</h2>
         <p style="font-size: 14px; color: var(--text-2); margin: 0 0 8px; line-height: 1.5;">Select all that apply. If none apply, leave all unchecked.</p>
         <p style="font-size: 13px; color: var(--text-3); margin: 0 0 24px; line-height: 1.5;">Note: these transparency obligations apply even to Limited-risk systems.</p>
 
@@ -485,7 +494,7 @@
 
       <!-- Q10: Human oversight -->
       <div x-show="currentStep === 10" class="step-anim">
-        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px;">What level of human oversight exists in the decision loop?</h2>
+        <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 8px; color: var(--navy);">What level of human oversight exists in the decision loop?</h2>
         <p style="font-size: 14px; color: var(--text-2); margin: 0 0 24px; line-height: 1.5;">Human oversight is a key mitigation factor across all three frameworks. Higher oversight = lower risk.</p>
         <button class="opt-btn" :class="answers.humanOversight === 'Fully automated — no human review' && 'selected'" @click="select('humanOversight','Fully automated — no human review')">
           Fully automated — no human review
@@ -505,7 +514,7 @@
         </button>
 
         <div x-show="answers.humanOversight" style="margin-top: 8px;">
-          <div x-show="error" style="background: rgba(220,38,38,0.12); border: 1px solid rgba(220,38,38,0.3); border-radius: 8px; padding: 14px 18px; margin-bottom: 16px; font-size: 14px; color: #fca5a5;" x-text="error"></div>
+          <div x-show="error" style="background: rgba(185,28,28,0.08); border: 1px solid rgba(185,28,28,0.25); border-radius: 6px; padding: 14px 18px; margin-bottom: 16px; font-size: 14px; color: var(--risk-red);" x-text="error"></div>
           <button class="btn-primary" :disabled="!canProceed" @click="submit()" style="width: 100%; text-align: center; font-size: 16px; padding: 14px;">
             Analyze My AI System →
           </button>
@@ -528,7 +537,7 @@
     <!-- ── Loading ─────────────────────────────────────────────────────────── -->
     <div x-show="loading" style="text-align: center; padding: 80px 20px;">
       <div class="spinner" style="margin: 0 auto 24px;"></div>
-      <h2 style="font-size: 20px; font-weight: 600; margin: 0 0 8px;">Analyzing your AI system...</h2>
+      <h2 style="font-size: 20px; font-weight: 600; margin: 0 0 8px; color: var(--navy);">Analyzing your AI system...</h2>
       <p style="color: var(--text-2); font-size: 15px; margin: 0;">Applying EU AI Act, Israeli PPA, and NIST AI RMF frameworks</p>
     </div>
 
@@ -538,8 +547,8 @@
         <div>
           <!-- Header -->
           <div style="text-align: center; margin-bottom: 36px;">
-            <p style="font-size: 13px; color: var(--text-3); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 12px;">Risk Assessment Complete</p>
-            <h1 style="font-size: 28px; font-weight: 700; margin: 0 0 20px;">Your AI System Is:</h1>
+            <p style="font-size: 12px; color: var(--gold); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin: 0 0 12px;">Risk Assessment Complete</p>
+            <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: 28px; font-weight: 700; margin: 0 0 20px; color: var(--navy);">Your AI System Is:</h1>
             <div class="risk-badge" :style="'background:' + tierBg(results.overallTier) + '; color:' + tierColor(results.overallTier) + '; border: 1.5px solid ' + tierColor(results.overallTier)">
               <svg x-show="results.overallTier === 'Prohibited'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
               <svg x-show="results.overallTier === 'High'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
@@ -551,7 +560,7 @@
           </div>
 
           <!-- Framework cards -->
-          <h2 style="font-size: 16px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.07em; margin: 0 0 14px;">Framework Analysis</h2>
+          <h2 style="font-size: 12px; font-weight: 600; color: var(--gold); text-transform: uppercase; letter-spacing: 0.1em; margin: 0 0 14px;">Framework Analysis</h2>
           <div class="framework-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 32px;">
 
             <div class="framework-card">
@@ -584,7 +593,7 @@
 
           <!-- Key obligations -->
           <div class="card" style="padding: 24px; margin-bottom: 28px;">
-            <h2 style="font-size: 16px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.07em; margin: 0 0 4px;">Your 3 Key Obligations</h2>
+            <h2 style="font-size: 12px; font-weight: 600; color: var(--gold); text-transform: uppercase; letter-spacing: 0.1em; margin: 0 0 4px;">Your 3 Key Obligations</h2>
             <p style="font-size: 13px; color: var(--text-3); margin: 0 0 16px;">Based on your risk tier and jurisdictions</p>
             <template x-for="(obligation, i) in results.keyObligations" :key="i">
               <div class="obligation-item">
@@ -596,10 +605,10 @@
 
           <!-- CTA -->
           <div class="cta-box" style="margin-bottom: 24px;">
-            <h2 style="font-size: 20px; font-weight: 700; margin: 0 0 8px;">Need full compliance coverage?</h2>
-            <p style="font-size: 15px; color: var(--text-2); line-height: 1.6; margin: 0 0 20px;">
+            <h2 style="font-size: 20px; font-weight: 700; margin: 0 0 8px; color: #fff; font-family: 'Playfair Display', Georgia, serif;">Need full compliance coverage?</h2>
+            <p style="font-size: 15px; color: rgba(255,255,255,0.72); line-height: 1.6; margin: 0 0 20px;">
               This screener gives you the overview. A full assessment covers documentation requirements, technical measures, contractual obligations, and an implementation roadmap tailored to your system.
-              <strong style="color: var(--text-1);"> FERR AI Compliance</strong> provides fractional DPO and AI Act compliance consulting.
+              <strong style="color: #fff;"> FERR AI Compliance</strong> provides fractional DPO and AI Act compliance consulting.
             </p>
             <a href="https://calendly.com/demo" target="_blank" rel="noopener" class="btn-primary" style="display: inline-block; text-decoration: none; font-size: 16px; padding: 14px 28px;">
               Book a Free Consultation →
