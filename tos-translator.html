@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service Translator — FERR AI Compliance</title>
+  <meta name="description" content="Paste any Terms of Service or Privacy Policy. Get the 5 clauses most likely to harm you, explained in plain English.">
+  <meta property="og:title" content="Terms of Service Translator — FERR AI Compliance">
+  <meta property="og:description" content="What are you actually agreeing to? Paste any ToS and find out in seconds.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <style>
+    :root {
+      --navy:         #0a1628;
+      --navy-light:   #132040;
+      --navy-border:  #1e3056;
+      --accent:       #2563eb;
+      --accent-hover: #1d4ed8;
+      --text-1:       #f8fafc;
+      --text-2:       #94a3b8;
+      --text-3:       #64748b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--navy);
+      color: var(--text-1);
+      min-height: 100vh;
+      margin: 0;
+    }
+    [x-cloak] { display: none !important; }
+
+    .card {
+      background: var(--navy-light);
+      border: 1px solid var(--navy-border);
+      border-radius: 12px;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 13px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, opacity 0.15s;
+      font-family: inherit;
+    }
+    .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-2);
+      border: 1px solid var(--navy-border);
+      border-radius: 8px;
+      padding: 11px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+      font-family: inherit;
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--text-1); }
+
+    textarea {
+      width: 100%;
+      background: var(--navy);
+      border: 2px solid var(--navy-border);
+      border-radius: 10px;
+      color: var(--text-1);
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      padding: 16px;
+      resize: vertical;
+      min-height: 220px;
+      max-height: 380px;
+      transition: border-color 0.15s;
+      outline: none;
+    }
+    textarea:focus { border-color: var(--accent); }
+    textarea::placeholder { color: var(--text-3); }
+
+    .clause-card {
+      background: var(--navy-light);
+      border: 1px solid var(--navy-border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .clause-header {
+      padding: 18px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .clause-header:hover { background: rgba(255,255,255,0.02); }
+
+    .rank-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .risk-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .category-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      background: rgba(37,99,235,0.15);
+      color: #93c5fd;
+      letter-spacing: 0.03em;
+    }
+
+    .excerpt-block {
+      background: var(--navy);
+      border-left: 3px solid var(--navy-border);
+      border-radius: 0 6px 6px 0;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--text-3);
+      line-height: 1.7;
+      font-style: italic;
+      margin: 0 20px 16px;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, rgba(37,99,235,0.18) 0%, rgba(37,99,235,0.06) 100%);
+      border: 1px solid rgba(37,99,235,0.4);
+      border-radius: 12px;
+      padding: 28px 32px;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba(37,99,235,0.25);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .fade-in { animation: fadeIn 0.25s ease; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .dots span {
+      animation: blink 1.2s infinite;
+      opacity: 0;
+    }
+    .dots span:nth-child(2) { animation-delay: 0.2s; }
+    .dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink { 0%, 80%, 100% { opacity: 0; } 40% { opacity: 1; } }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────────────────────────────── -->
+<header style="border-bottom: 1px solid var(--navy-border); padding: 16px 24px;">
+  <div style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;">
+    <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
+      <div style="width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <span style="font-weight: 700; font-size: 16px; color: var(--text-1);">FERR AI Compliance</span>
+    </a>
+    <a href="https://calendly.com/demo" target="_blank" rel="noopener" class="btn-primary" style="padding: 9px 18px; font-size: 14px; text-decoration: none;">Book a Call</a>
+  </div>
+</header>
+
+<!-- ── App ─────────────────────────────────────────────────────────────────── -->
+<main style="max-width: 760px; margin: 0 auto; padding: 40px 20px 80px;">
+
+  <div x-data="tosTranslator()" x-cloak>
+
+    <!-- ── Input view ──────────────────────────────────────────────────────── -->
+    <div x-show="!results && !loading">
+      <div style="text-align: center; margin-bottom: 36px;">
+        <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(251,191,36,0.12); border: 1px solid rgba(251,191,36,0.3); border-radius: 99px; padding: 6px 16px; font-size: 13px; font-weight: 600; color: #fbbf24; margin-bottom: 20px;">
+          Free · No Account · Instant Results
+        </div>
+        <h1 style="font-size: clamp(24px, 5vw, 38px); font-weight: 700; line-height: 1.2; margin: 0 0 14px;">
+          Terms of Service Translator
+        </h1>
+        <p style="font-size: 17px; color: var(--text-2); line-height: 1.6; max-width: 500px; margin: 0 auto;">
+          Paste any Terms of Service, Privacy Policy, or legal agreement. Get the <strong style="color: var(--text-1);">5 clauses most likely to harm you</strong> — in plain English.
+        </p>
+      </div>
+
+      <!-- Input card -->
+      <div class="card" style="padding: 24px; margin-bottom: 24px;">
+        <label style="display: block; font-size: 14px; font-weight: 600; color: var(--text-2); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em;">
+          Paste Your Agreement
+        </label>
+        <textarea
+          x-model="tosText"
+          placeholder="Paste your Terms of Service, Privacy Policy, End User License Agreement, or any legal contract here...
+
+Tip: You can paste the full document — up to 15,000 characters."
+          @input="charCount = tosText.length"
+        ></textarea>
+
+        <!-- Character counter -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+          <span style="font-size: 12px;" :class="isOverLimit ? 'text-red-400' : ''" :style="isOverLimit ? 'color:#f87171' : 'color:var(--text-3)'">
+            <span x-text="charCount.toLocaleString()"></span> / 15,000 characters
+            <span x-show="isOverLimit" style="margin-left: 6px; font-weight: 600;">— Please trim before submitting</span>
+          </span>
+          <span x-show="tosText.length > 0 && !isOverLimit" style="font-size: 12px; color: var(--text-3);">
+            ~<span x-text="Math.round(tosText.length / 4).toLocaleString()"></span> tokens
+          </span>
+        </div>
+
+        <!-- Error -->
+        <div x-show="error" style="background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3); border-radius: 8px; padding: 12px 16px; margin-top: 14px; font-size: 14px; color: #fca5a5;" x-text="error"></div>
+
+        <div style="display: flex; align-items: center; gap: 14px; margin-top: 18px;">
+          <button class="btn-primary" :disabled="!canSubmit" @click="analyze()" style="font-size: 16px; padding: 14px 28px;">
+            Analyze My Terms →
+          </button>
+          <span x-show="tosText.length < 100 && tosText.length > 0" style="font-size: 13px; color: var(--text-3);">Please paste more text</span>
+        </div>
+        <div style="margin-top: 12px;">
+          <button @click="demoMode()" style="background: none; border: none; color: var(--text-3); font-size: 13px; cursor: pointer; font-family: inherit; text-decoration: underline; text-underline-offset: 3px;">
+            No API key yet? Try demo result →
+          </button>
+        </div>
+      </div>
+
+      <!-- What we look for -->
+      <div class="card" style="padding: 20px 24px;">
+        <p style="font-size: 13px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 14px;">What we scan for</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <template x-for="item in scanItems" :key="item.label">
+            <div style="display: flex; align-items: flex-start; gap: 8px;">
+              <svg style="flex-shrink: 0; margin-top: 2px;" width="14" height="14" viewBox="0 0 24 24" fill="none" :stroke="item.color" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <span style="font-size: 13px; color: var(--text-2);" x-text="item.label"></span>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <p style="text-align: center; font-size: 12px; color: var(--text-3); margin-top: 20px; line-height: 1.6;">
+        This tool provides general information only and does not constitute legal advice.<br>
+        Text is sent to Claude (Anthropic) for analysis. Do not paste confidential credentials.
+      </p>
+    </div>
+
+    <!-- ── Loading ─────────────────────────────────────────────────────────── -->
+    <div x-show="loading" style="text-align: center; padding: 80px 20px;">
+      <div class="spinner" style="margin: 0 auto 24px;"></div>
+      <h2 style="font-size: 20px; font-weight: 600; margin: 0 0 8px;">
+        Reading the fine print<span class="dots"><span>.</span><span>.</span><span>.</span></span>
+      </h2>
+      <p style="color: var(--text-2); font-size: 15px; margin: 0;">Identifying clauses that could affect your rights</p>
+    </div>
+
+    <!-- ── Results ─────────────────────────────────────────────────────────── -->
+    <div x-show="results && !loading" class="fade-in">
+      <template x-if="results">
+        <div>
+          <!-- Header -->
+          <div style="margin-bottom: 28px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+              <div>
+                <p style="font-size: 13px; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; margin: 0 0 6px;">Analysis Complete</p>
+                <h1 style="font-size: 26px; font-weight: 700; margin: 0;">
+                  5 Clauses That Could Affect You
+                </h1>
+              </div>
+              <button class="btn-ghost" @click="reset()">Analyze Another →</button>
+            </div>
+            <p style="font-size: 14px; color: var(--text-2); margin: 10px 0 0; line-height: 1.5;">
+              Ranked from most to least harmful. Clause 1 poses the greatest risk.
+            </p>
+          </div>
+
+          <!-- Clause cards -->
+          <template x-for="(clause, i) in results" :key="i">
+            <div class="clause-card">
+
+              <!-- Header row (clickable to expand/collapse) -->
+              <div class="clause-header" @click="clause._open = !clause._open">
+                <!-- Rank badge -->
+                <div class="rank-badge" :style="'background:' + rankBg(clause.riskScore) + '; color:' + rankColor(clause.riskScore)">
+                  <span x-text="clause.rank"></span>
+                </div>
+
+                <!-- Title + meta -->
+                <div style="flex: 1; min-width: 0;">
+                  <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 5px;">
+                    <span style="font-size: 15px; font-weight: 600;" x-text="clause.clauseTitle"></span>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <span class="risk-pill" :style="'background:' + rankBg(clause.riskScore) + '; color:' + rankColor(clause.riskScore)">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+                      <span x-text="riskLabel(clause.riskScore)"></span>
+                      <span x-text="clause.riskScore + '/10'"></span>
+                    </span>
+                    <span class="category-tag" x-text="clause.category"></span>
+                  </div>
+                </div>
+
+                <!-- Chevron -->
+                <svg style="flex-shrink: 0; transition: transform 0.2s; margin-top: 4px;" :style="clause._open ? 'transform: rotate(180deg)' : ''" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+
+              <!-- Expanded body -->
+              <div x-show="clause._open" style="padding: 0 20px 20px;">
+                <!-- Original excerpt -->
+                <p style="font-size: 12px; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 8px;">Original text</p>
+                <div class="excerpt-block" x-text="'\u201c' + clause.originalExcerpt + '\u201d'"></div>
+
+                <!-- Plain English -->
+                <p style="font-size: 12px; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 8px;">What this means for you</p>
+                <p style="font-size: 14px; color: var(--text-1); line-height: 1.7; margin: 0 0 16px;" x-text="clause.plainEnglish"></p>
+
+                <!-- Why it matters -->
+                <div style="display: flex; gap: 10px; align-items: flex-start; background: rgba(251,146,60,0.08); border: 1px solid rgba(251,146,60,0.2); border-radius: 8px; padding: 12px 14px;">
+                  <svg style="flex-shrink: 0; margin-top: 1px;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                  <p style="font-size: 13px; color: #fdba74; margin: 0; line-height: 1.6; font-weight: 500;" x-text="clause.whyItMatters"></p>
+                </div>
+              </div>
+
+            </div>
+          </template>
+
+          <!-- CTA -->
+          <div class="cta-box" style="margin-top: 8px; margin-bottom: 24px;">
+            <h2 style="font-size: 20px; font-weight: 700; margin: 0 0 8px;">Concerned about these clauses?</h2>
+            <p style="font-size: 15px; color: var(--text-2); line-height: 1.6; margin: 0 0 20px;">
+              Our team can review this agreement, advise on negotiation leverage, and help you understand what you can push back on — before you sign.
+              <strong style="color: var(--text-1);"> FERR AI Compliance</strong> advises on AI contracts, data processing agreements, and privacy compliance.
+            </p>
+            <a href="https://calendly.com/demo" target="_blank" rel="noopener" class="btn-primary" style="display: inline-block; text-decoration: none; font-size: 16px; padding: 14px 28px;">
+              Book a Free Consultation →
+            </a>
+          </div>
+
+          <p style="text-align: center; font-size: 12px; color: var(--text-3); margin-top: 0; line-height: 1.6;">
+            This output is generated by AI for informational purposes only and does not constitute legal advice.<br>
+            Consult a qualified attorney before making decisions. © FERR AI Compliance.
+          </p>
+        </div>
+      </template>
+    </div>
+
+  </div><!-- end x-data -->
+</main>
+
+<script>
+function tosTranslator() {
+  return {
+    // ── Worker URL ─────────────────────────────────────────────────────────
+    // Replace with your actual Cloudflare Worker URL after deployment
+    workerUrl: 'https://ferrai-api-proxy.taltuital.workers.dev',
+
+    // ── State ──────────────────────────────────────────────────────────────
+    tosText: '',
+    charCount: 0,
+    loading: false,
+    results: null,
+    error: null,
+
+    // ── What we scan for ───────────────────────────────────────────────────
+    scanItems: [
+      { label: 'Mandatory arbitration / class action waivers', color: '#f87171' },
+      { label: 'Broad data sharing with unnamed "partners"', color: '#f87171' },
+      { label: 'Unilateral right to change terms at any time', color: '#fb923c' },
+      { label: 'Liability caps near zero (even for negligence)', color: '#fb923c' },
+      { label: 'Perpetual, irrevocable IP license on your content', color: '#fb923c' },
+      { label: 'Auto-renewal with difficult cancellation', color: '#fbbf24' },
+      { label: 'Account termination without cause or refund', color: '#fbbf24' },
+      { label: 'Broad indemnification obligations on the user', color: '#fbbf24' },
+    ],
+
+    // ── Computed ───────────────────────────────────────────────────────────
+    get isOverLimit() { return this.tosText.length > 15000; },
+    get canSubmit() { return this.tosText.trim().length >= 100 && !this.isOverLimit; },
+
+    // ── Methods ────────────────────────────────────────────────────────────
+    demoMode() {
+      this.loading = false;
+      this.error = null;
+      this.results = [
+        {
+          rank: 1, riskScore: 10,
+          clauseTitle: 'Mandatory Arbitration & Class Action Waiver',
+          originalExcerpt: 'Any dispute arising out of or related to these Terms shall be resolved exclusively through binding individual arbitration. You waive any right to participate in a class action lawsuit or class-wide arbitration.',
+          plainEnglish: 'You cannot sue this company in court — not individually, and not as part of a class action. All disputes must go through a private arbitration process that the company typically controls or influences. Arbitration decisions are final and almost impossible to appeal.',
+          whyItMatters: 'This clause effectively shields the company from accountability for widespread harm — if thousands of users are harmed in a small way, no one can pool resources to fight back.',
+          category: 'Arbitration',
+          _open: true,
+        },
+        {
+          rank: 2, riskScore: 9,
+          clauseTitle: 'Perpetual, Irrevocable License on Your Content',
+          originalExcerpt: 'By submitting content to our platform, you grant us a worldwide, non-exclusive, royalty-free, sublicensable, and transferable license to use, reproduce, distribute, prepare derivative works of, and display such content in any media.',
+          plainEnglish: 'Any content you post — photos, text, videos — can be used by this company forever, in any way they want, including selling it to others or using it to train AI models. Deleting your account does not revoke this license.',
+          whyItMatters: 'Your creative work can be monetised, licensed to third parties, or used to build AI products — and you receive nothing and have no right to stop it.',
+          category: 'IP Rights',
+          _open: false,
+        },
+        {
+          rank: 3, riskScore: 8,
+          clauseTitle: 'Unilateral Right to Change Terms at Any Time',
+          originalExcerpt: 'We reserve the right to modify these Terms at any time. Your continued use of the service after changes are posted constitutes your acceptance of the new Terms.',
+          plainEnglish: 'The company can change any rule in this agreement whenever they want, and simply continuing to use the app counts as you agreeing to the new rules — even if you never read them.',
+          whyItMatters: 'Terms you agreed to today may be significantly different next month, and you have no practical recourse except to stop using the service.',
+          category: 'Liability',
+          _open: false,
+        },
+        {
+          rank: 4, riskScore: 7,
+          clauseTitle: 'Broad Data Sharing with Unnamed Third Parties',
+          originalExcerpt: 'We may share your personal information with our affiliates, business partners, service providers, and other third parties as necessary to provide our services or for our legitimate business purposes.',
+          plainEnglish: '"Affiliates," "partners," and "service providers" are never defined — this clause allows the company to share your personal data with essentially any organisation they have a commercial relationship with, for almost any reason.',
+          whyItMatters: 'Your personal data could end up at data brokers, advertising networks, or companies you\'ve never heard of, with no effective way to know or object.',
+          category: 'Data/Privacy',
+          _open: false,
+        },
+        {
+          rank: 5, riskScore: 6,
+          clauseTitle: 'Liability Cap at Subscription Fee Paid',
+          originalExcerpt: 'To the maximum extent permitted by law, our total liability to you for any claims arising under these Terms shall not exceed the greater of $50 or the amount you paid us in the 12 months preceding the claim.',
+          plainEnglish: 'No matter how badly the company harms you — data breach, financial loss, reputational damage — the maximum they will ever owe you is $50 (or what you paid them, if more). This applies even if the harm was caused by their negligence.',
+          whyItMatters: 'The company\'s maximum financial exposure is trivially small relative to the potential harm they could cause, removing most incentive to take your interests seriously.',
+          category: 'Liability',
+          _open: false,
+        },
+      ];
+    },
+
+    reset() {
+      this.tosText = '';
+      this.charCount = 0;
+      this.results = null;
+      this.error = null;
+      this.loading = false;
+    },
+
+    riskLabel(score) {
+      if (score >= 8) return 'High Risk';
+      if (score >= 5) return 'Medium Risk';
+      return 'Low Risk';
+    },
+
+    rankColor(score) {
+      if (score >= 8) return '#f87171';
+      if (score >= 5) return '#fb923c';
+      return '#fbbf24';
+    },
+
+    rankBg(score) {
+      if (score >= 8) return 'rgba(248,113,113,0.12)';
+      if (score >= 5) return 'rgba(251,146,60,0.12)';
+      return 'rgba(251,191,36,0.12)';
+    },
+
+    // ── Analyze ────────────────────────────────────────────────────────────
+    async analyze() {
+      if (!this.canSubmit) return;
+      this.loading = true;
+      this.error = null;
+      this.results = null;
+
+      const systemPrompt = `You are a consumer protection attorney and plain-language legal expert. Your job is to read Terms of Service, Privacy Policies, and legal agreements, then identify the clauses most likely to harm the user who must agree to them.
+
+You will output a JSON response in exactly this format:
+{
+  "clauses": [
+    {
+      "rank": 1,
+      "riskScore": 9,
+      "clauseTitle": "Short descriptive title (5-8 words)",
+      "originalExcerpt": "The exact quoted text from the document (max 60 words)",
+      "plainEnglish": "2-3 sentence plain language explanation of what this clause means in practice.",
+      "whyItMatters": "One sentence explaining the specific harm or risk this creates for the user.",
+      "category": "Data/Privacy|Liability|Arbitration|Termination|IP Rights|Auto-Renewal|Indemnification|Other"
+    }
+  ]
+}
+
+The array must contain exactly 5 clauses, ranked from most harmful (rank 1) to least harmful (rank 5).
+
+Risk score scale (1–10):
+- 9–10: Severely harmful — waives fundamental rights, unlimited liability, secret data sales, bars class actions
+- 7–8: Significantly harmful — broad data sharing, mandatory arbitration, unilateral changes, perpetual IP license
+- 5–6: Moderately concerning — auto-renewal, vague termination, broad indemnity, wide affiliate sharing
+- 1–4: Worth noting — standard limitations, reasonable restrictions
+
+Prioritize clauses that:
+1. Waive the user's right to sue or join class actions (mandatory arbitration)
+2. Grant the company very broad rights to user data or content (including perpetual, irrevocable, sublicensable licenses)
+3. Allow unilateral changes to terms without meaningful notice or consent
+4. Limit liability to near-zero even for intentional misconduct or negligence
+5. Allow account termination without cause, notice, or refund
+6. Share personal data with unnamed or broadly defined "affiliates" or "partners"
+7. Include auto-renewal with difficult or obscure cancellation procedures
+8. Impose broad indemnification obligations on the user for third-party claims
+
+If a clause is not found in the document for a particular category, substitute the next most harmful clause you can find.
+
+IMPORTANT: Output ONLY valid JSON. No markdown code blocks. No explanation outside the JSON structure. The response must be parseable by JSON.parse() directly.`;
+
+      const userMessage = `Please analyze this Terms of Service / legal agreement and identify the 5 most harmful clauses:\n\n${this.tosText}`;
+
+      try {
+        const response = await fetch(this.workerUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tool: 'tos-translator', systemPrompt, userMessage }),
+        });
+
+        if (!response.ok) {
+          const err = await response.json().catch(() => ({}));
+          throw new Error(err.error || `Request failed (${response.status})`);
+        }
+
+        const data = await response.json();
+
+        let text = data.result.trim();
+        if (text.startsWith('```')) {
+          text = text.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim();
+        }
+
+        const parsed = JSON.parse(text);
+        // Add _open: true to first clause, false to rest (for expand/collapse)
+        this.results = parsed.clauses.map((c, i) => ({ ...c, _open: i === 0 }));
+        this.loading = false;
+      } catch (err) {
+        this.error = err.message;
+        this.loading = false;
+      }
+    },
+  };
+}
+</script>
+
+</body>
+</html>

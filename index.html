@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FERR AI Compliance — Free AI & Privacy Law Tools</title>
+  <meta name="description" content="Free AI compliance and privacy law tools for lawyers, compliance officers, and AI product teams. EU AI Act screener, Terms of Service translator, and more.">
+  <meta property="og:title" content="FERR AI Compliance — Free AI & Privacy Law Tools">
+  <meta property="og:description" content="Classify your AI system's risk tier. Decode any Terms of Service. Free tools from an AI & privacy law practice.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:         #0a1628;
+      --navy-light:   #132040;
+      --navy-border:  #1e3056;
+      --accent:       #2563eb;
+      --accent-hover: #1d4ed8;
+      --text-1:       #f8fafc;
+      --text-2:       #94a3b8;
+      --text-3:       #64748b;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--navy);
+      color: var(--text-1);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 13px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      font-family: inherit;
+      text-decoration: none;
+    }
+    .btn-primary:hover { background: var(--accent-hover); }
+
+    .btn-outline {
+      display: inline-block;
+      background: transparent;
+      color: var(--text-1);
+      border: 1.5px solid var(--navy-border);
+      border-radius: 8px;
+      padding: 12px 22px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+      font-family: inherit;
+      text-decoration: none;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--text-1); }
+
+    /* ── Header ──────────────────────────────────────────────────────────── */
+    header {
+      border-bottom: 1px solid var(--navy-border);
+      padding: 18px 0;
+      position: sticky;
+      top: 0;
+      background: rgba(10, 22, 40, 0.95);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 17px;
+    }
+    .nav-logo-icon {
+      width: 34px;
+      height: 34px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-link {
+      color: var(--text-2);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 7px 12px;
+      border-radius: 6px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .nav-link:hover { color: var(--text-1); background: rgba(255,255,255,0.05); }
+
+    /* ── Hero ────────────────────────────────────────────────────────────── */
+    .hero {
+      padding: 80px 0 72px;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(37,99,235,0.12);
+      border: 1px solid rgba(37,99,235,0.3);
+      border-radius: 99px;
+      padding: 6px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #93c5fd;
+      margin-bottom: 22px;
+    }
+    .hero h1 {
+      font-size: clamp(30px, 6vw, 52px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero h1 span { color: #60a5fa; }
+    .hero p {
+      font-size: 18px;
+      color: var(--text-2);
+      line-height: 1.65;
+      max-width: 540px;
+      margin: 0 auto 36px;
+    }
+    .hero-ctas {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ── Frameworks strip ────────────────────────────────────────────────── */
+    .frameworks {
+      border-top: 1px solid var(--navy-border);
+      border-bottom: 1px solid var(--navy-border);
+      padding: 20px 0;
+    }
+    .frameworks-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .framework-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-3);
+    }
+
+    /* ── Tools ───────────────────────────────────────────────────────────── */
+    .tools { padding: 72px 0; }
+    .section-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(22px, 4vw, 32px);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .tools-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .tool-card {
+      background: var(--navy-light);
+      border: 1px solid var(--navy-border);
+      border-radius: 16px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .tool-card:hover {
+      border-color: rgba(37,99,235,0.5);
+      transform: translateY(-2px);
+    }
+    .tool-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .tool-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+    .tool-card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .tool-card p {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 24px;
+    }
+    .tool-features {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+    .tool-features li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-2);
+      margin-bottom: 6px;
+    }
+    .tool-features li::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ── About ───────────────────────────────────────────────────────────── */
+    .about {
+      padding: 72px 0;
+      border-top: 1px solid var(--navy-border);
+    }
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .about h2 {
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+    .about p {
+      font-size: 15px;
+      color: var(--text-2);
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+    .credential {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--navy-border);
+    }
+    .credential:last-child { border-bottom: none; }
+    .credential-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(37,99,235,0.12);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .credential-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-1);
+      line-height: 1.4;
+    }
+    .credential-sub {
+      font-size: 12px;
+      color: var(--text-3);
+      margin-top: 2px;
+    }
+
+    /* ── CTA section ─────────────────────────────────────────────────────── */
+    .cta-section {
+      padding: 72px 0;
+      border-top: 1px solid var(--navy-border);
+      text-align: center;
+    }
+    .cta-box {
+      background: linear-gradient(135deg, rgba(37,99,235,0.18) 0%, rgba(37,99,235,0.06) 100%);
+      border: 1px solid rgba(37,99,235,0.35);
+      border-radius: 20px;
+      padding: 56px 40px;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .cta-box h2 {
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .cta-box p {
+      font-size: 16px;
+      color: var(--text-2);
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+
+    /* ── Footer ──────────────────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--navy-border);
+      padding: 28px 0;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+    .footer-links a {
+      font-size: 13px;
+      color: var(--text-3);
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: var(--text-2); }
+
+    /* ── Responsive ──────────────────────────────────────────────────────── */
+    @media (max-width: 700px) {
+      .tools-grid { grid-template-columns: 1fr; }
+      .about-inner { grid-template-columns: 1fr; gap: 40px; }
+      .frameworks-inner { gap: 20px; }
+      .nav-links { display: none; }
+      .footer-inner { flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────────────────────────────── -->
+<header>
+  <div class="container">
+    <nav>
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        FERR AI Compliance
+      </a>
+      <div class="nav-links">
+        <a href="screener.html" class="nav-link">AI Act Screener</a>
+        <a href="tos-translator.html" class="nav-link">ToS Translator</a>
+      </div>
+      <a href="https://calendly.com/demo" target="_blank" rel="noopener" class="btn-primary" style="font-size: 14px; padding: 10px 20px;">Book a Call</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ── Hero ────────────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Free AI Compliance Tools
+    </div>
+    <h1>AI Compliance Tools<br>for the <span>Real World</span></h1>
+    <p>Free regulatory screeners for lawyers, compliance officers, and AI product teams. Know your obligations before you ship.</p>
+    <div class="hero-ctas">
+      <a href="screener.html" class="btn-primary" style="font-size: 16px; padding: 14px 28px;">Try AI Act Screener →</a>
+      <a href="tos-translator.html" class="btn-outline" style="font-size: 16px; padding: 14px 28px;">ToS Translator →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Frameworks ───────────────────────────────────────────────────────────── -->
+<section class="frameworks">
+  <div class="container">
+    <div class="frameworks-inner">
+      <div class="framework-item">
+        <span style="font-size: 18px;">🇪🇺</span>
+        EU AI Act 2024
+      </div>
+      <div style="color: var(--navy-border); font-size: 20px;">·</div>
+      <div class="framework-item">
+        <span style="font-size: 18px;">🇮🇱</span>
+        Israeli PPA Guidelines
+      </div>
+      <div style="color: var(--navy-border); font-size: 20px;">·</div>
+      <div class="framework-item">
+        <span style="font-size: 18px;">🇺🇸</span>
+        NIST AI RMF
+      </div>
+      <div style="color: var(--navy-border); font-size: 20px;">·</div>
+      <div class="framework-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Powered by Claude (Anthropic)
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Tools ────────────────────────────────────────────────────────────────── -->
+<section class="tools">
+  <div class="container">
+    <p class="section-label">Free Tools</p>
+    <h2 class="section-title">Two tools. Two audiences. One practice.</h2>
+
+    <div class="tools-grid">
+
+      <!-- Tool 1 -->
+      <div class="tool-card">
+        <div class="tool-icon" style="background: rgba(37,99,235,0.15);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <span class="tool-badge" style="background: rgba(37,99,235,0.15); color: #93c5fd;">For Legal &amp; Compliance Teams</span>
+        <h2>AI Act Compliance Screener</h2>
+        <p>Answer 10 questions about your AI system and get an instant risk classification across three major regulatory frameworks. Know if you're Prohibited, High Risk, Limited, or Minimal — before your lawyers find out the hard way.</p>
+        <ul class="tool-features">
+          <li>EU AI Act risk tier (Annex III + Art. 5)</li>
+          <li>Israeli Privacy Protection Authority guidelines</li>
+          <li>US NIST AI Risk Management Framework</li>
+          <li>3 key compliance obligations, free</li>
+        </ul>
+        <a href="screener.html" class="btn-primary" style="text-align: center;">Start Free Assessment →</a>
+      </div>
+
+      <!-- Tool 2 -->
+      <div class="tool-card">
+        <div class="tool-icon" style="background: rgba(251,191,36,0.12);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <span class="tool-badge" style="background: rgba(251,191,36,0.1); color: #fbbf24;">For Everyone</span>
+        <h2>Terms of Service Translator</h2>
+        <p>Paste any Terms of Service, Privacy Policy, or legal agreement. Get the 5 clauses most likely to harm you — explained in plain English, ranked by severity. Stop clicking "I Agree" blind.</p>
+        <ul class="tool-features">
+          <li>Arbitration &amp; class action waiver detection</li>
+          <li>Data sharing and IP rights exposure</li>
+          <li>Auto-renewal and cancellation traps</li>
+          <li>Liability and indemnification risks</li>
+        </ul>
+        <a href="tos-translator.html" class="btn-primary" style="text-align: center; background: rgba(251,191,36,0.9); color: #0a1628;">Analyze My Terms →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── About ────────────────────────────────────────────────────────────────── -->
+<section class="about">
+  <div class="container">
+    <div class="about-inner">
+      <div>
+        <p class="section-label" style="text-align: left; margin-bottom: 8px;">About FERR AI Compliance</p>
+        <h2>AI law expertise,<br>not just AI hype.</h2>
+        <p>FERR AI Compliance is a boutique practice focused on AI governance, data privacy, and regulatory compliance. We work with AI product teams, startups, and enterprises who need real legal expertise — not templated checklists.</p>
+        <p>As fractional DPO and AI compliance counsel, we embed with your team to build compliance programs that work in the real world.</p>
+        <a href="https://calendly.com/demo" target="_blank" rel="noopener" class="btn-primary" style="margin-top: 8px;">Book a Free Consultation →</a>
+      </div>
+
+      <div>
+        <div class="credential">
+          <div class="credential-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div>
+            <div class="credential-text">Corporate Attorney — AI &amp; Privacy Law</div>
+            <div class="credential-sub">Tel Aviv · Israeli Bar Association</div>
+          </div>
+        </div>
+        <div class="credential">
+          <div class="credential-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div>
+            <div class="credential-text">Former General Counsel, IDF AI Department</div>
+            <div class="credential-sub">AI governance in high-stakes operational contexts</div>
+          </div>
+        </div>
+        <div class="credential">
+          <div class="credential-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div>
+            <div class="credential-text">Certified DPO — Israeli Bar Association</div>
+            <div class="credential-sub">Data Protection Officer certification</div>
+          </div>
+        </div>
+        <div class="credential">
+          <div class="credential-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div>
+            <div class="credential-text">AI Engineering Background</div>
+            <div class="credential-sub">Data Science · Deep Learning · Generative AI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ──────────────────────────────────────────────────────────────────── -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box">
+      <h2>Ready to get compliant?</h2>
+      <p>The free tools give you the overview. A full engagement covers documentation, technical measures, vendor contracts, staff training, and an implementation roadmap — built for your specific system and jurisdictions.</p>
+      <a href="https://calendly.com/demo" target="_blank" rel="noopener" class="btn-primary" style="font-size: 16px; padding: 14px 32px;">Book a Free Consultation →</a>
+      <p style="font-size: 13px; color: var(--text-3); margin-top: 16px; margin-bottom: 0;">30 minutes · No commitment · Based in Tel Aviv, available globally</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ───────────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="nav-logo-icon" style="width: 28px; height: 28px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <span style="font-size: 14px; color: var(--text-3);">© 2025 FERR AI Compliance</span>
+      </div>
+      <div class="footer-links">
+        <a href="screener.html">AI Act Screener</a>
+        <a href="tos-translator.html">ToS Translator</a>
+        <a href="https://calendly.com/demo" target="_blank" rel="noopener">Book a Call</a>
+      </div>
+      <p style="font-size: 12px; color: var(--text-3);">Tools provide general information only. Not legal advice.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
